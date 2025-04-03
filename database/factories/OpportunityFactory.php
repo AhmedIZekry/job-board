@@ -26,4 +26,18 @@ class OpportunityFactory extends Factory
             'category'=>$this->faker->randomElement(Opportunity::$category),
         ];
     }
+
+//    public function entryExperience(): OpportunityFactory|Factory
+//    {
+//        return $this->state([
+//            function (array $attributes){
+//                return [
+//                    'experience' => 'entry',
+//                ];
+//            }
+//        ]);
+//    }
+
+
+
 }

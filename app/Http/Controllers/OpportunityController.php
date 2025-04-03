@@ -13,9 +13,11 @@ class OpportunityController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View|Application|Factory
+    public function index(Request $request): View|Application|Factory
     {
-        return view('opportunity.index',['jobs'=>Opportunity::all()]);
+        $filters = $request->only(['search','minSalary','minSalary','category', 'experience']);
+
+        return view('opportunity.index',['jobs'=>Opportunity::with('employer')->filter($filters)->get()]);
     }
 
     /**
@@ -39,9 +41,8 @@ class OpportunityController extends Controller
      */
     public function show(Opportunity $job): View|Application|Factory
     {
-        return view('opportunity.show',compact('job'));
+        return view('opportunity.show',['job'=>$job->load('employer.opportunities')]);
     }
-
     /**
      * Show the form for editing the specified resource.
      */
