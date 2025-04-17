@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -36,17 +38,6 @@ class Opportunity extends Model
             });
     }
 
-//    public function scopeTitle(Builder $query, string $searchTerm)
-//    {
-//        $query->where(function ($query) use ($searchTerm) {
-//            $query->where('title', 'like', "%$searchTerm%")
-//                ->orWhere('description', 'like', "%$searchTerm%")
-//                ->orWhereHas('employer', function ($query) use ($searchTerm) {
-//                    $query->where('Company_name', 'like', "%$searchTerm%");
-//                });
-//        });
-//    }
-
     public function scopeCategory(Builder $query, string $category){
        return $query->where('category' ,$category);
     }
@@ -70,4 +61,23 @@ class Opportunity extends Model
     public function employer(): BelongsTo{
         return $this->belongsTo(Employer::class);
     }
+
+    public function opportunity_applications(): HasMany{
+        return $this->hasMany(OpportunityApplication::class);
+    }
+
+    public function hasApplied(Authenticatable|User|int $user):bool{
+        return $this->where('id',$this->id)
+            ->whereHas(
+                  'opportunity_applications',
+                  function ($query) use ($user){
+                $query->where('user_id', $user->id);
+            })->exists();
+
+    }
+
+
+//    public function averageSalary(){
+//        return $this->opportunity_applications()->avg('expected_salary');
+//    }
 }

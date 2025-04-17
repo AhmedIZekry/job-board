@@ -1,4 +1,5 @@
 @php use App\Models\Opportunity; @endphp
+<x-nav-bar></x-nav-bar>
 <x-layout>
     <x-breadcrumbs class="mb-4" :links="['Jobs' => route('jobs.index')]"/>
     <x-card class="mb-4 text-sm" x-data="">

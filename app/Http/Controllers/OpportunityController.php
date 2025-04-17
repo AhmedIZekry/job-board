@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Opportunity;
+use App\Models\OpportunityApplication;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class OpportunityController extends Controller
 {
@@ -15,9 +18,10 @@ class OpportunityController extends Controller
      */
     public function index(Request $request): View|Application|Factory
     {
+        Gate::authorize("viewAny", Opportunity::class);
         $filters = $request->only(['search','minSalary','minSalary','category', 'experience']);
 
-        return view('opportunity.index',['jobs'=>Opportunity::with('employer')->filter($filters)->get()]);
+        return view('opportunity.index',['jobs'=>Opportunity::with(['employer'])->filter($filters)->get()]);
     }
 
     /**
@@ -41,7 +45,9 @@ class OpportunityController extends Controller
      */
     public function show(Opportunity $job): View|Application|Factory
     {
-        return view('opportunity.show',['job'=>$job->load('employer.opportunities')]);
+        $job->load('employer.opportunities');
+        $job->loadavg('opportunity_applications','expected_salary');
+        return view('opportunity.show',['job'=>$job]);
     }
     /**
      * Show the form for editing the specified resource.

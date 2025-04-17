@@ -13,5 +13,5 @@
     @endif
     <input
          {{ $attributes->merge(['class' => ' w-full pr-8 border-gray-300 focus:border-indigo-500 ring-1 focus:ring-indigo-500 rounded-md shadow-sm']) }}
-        x-ref="input-{{$name}}" name="{{$name}}" value="{{$value}}" placeholder="{{$placeholder}}" id={{$name}}>
-</div>
+        x-ref="input-{{$name}}" name="{{$name}}" value="{{$value}}" placeholder="{{$placeholder}}" id="{{$name}}" type="{{ $type }}"/>
+    </div>

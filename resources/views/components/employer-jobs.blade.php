@@ -5,8 +5,8 @@
     </div>
 
         @foreach($job->employer->opportunities as $opportunity)
-        <div class="flex justify-between mb-4">
-            <div><a href="{{route('jobs.show',$opportunity)}}">{{$opportunity->title}}</a></div>
+        <div class="flex justify-between mb-4 space-x-8 items-center">
+            <div ><a href="{{route('jobs.show',$opportunity)}}">{{$opportunity->title}}</a></div>
             <div>${{number_format($opportunity->salary)}}</div>
         </div>
 
