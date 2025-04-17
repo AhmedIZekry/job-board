@@ -2,12 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
 use App\Models\Employer;
 use App\Models\Opportunity;
 use App\Models\OpportunityApplication;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -45,7 +47,10 @@ class DatabaseSeeder extends Seeder
 //                );
 //            }
 //        }
-
-
+        Admin::create([
+            'name'=>'Ahmed Ibrahim',
+            'email'=>'ahmed@gmail.com',
+            'password'=>Hash::make('password')
+        ]);
     }
 }

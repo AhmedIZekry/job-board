@@ -64,6 +64,7 @@
             <div class="mb-8">
                 <x-label for="email" :required="true">E-mail</x-label>
                 <x-text-input name="email" />
+                <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
             <div class="mb-8">
@@ -71,6 +72,7 @@
                     Password
                 </x-label>
                 <x-text-input name="password" type="password" />
+
             </div>
 
             <div class="mb-8 flex justify-between text-sm font-medium">
@@ -82,7 +84,7 @@
                     </div>
                 </div>
                 <div>
-                    <a href="#" class="text-indigo-600 hover:underline">
+                    <a href="{{route('password.request')}}" class="text-indigo-600 hover:underline">
                         Forget password?
                     </a>
                 </div>
