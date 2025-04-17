@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(300)->create();
+        $this->call([UserSeeder::class]);
 
         $users = User::all()->shuffle();
         for($i=0;$i<20;$i++){
