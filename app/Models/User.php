@@ -48,9 +48,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function employer(): HasOne
-    {
-        return $this->hasOne(Employer::class);
+    public function opportunities(): HasMany{
+        return $this->hasMany(Opportunity::class);
     }
 
     public function opportunity_applications(): HasMany{

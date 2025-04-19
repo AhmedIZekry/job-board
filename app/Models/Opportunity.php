@@ -16,13 +16,15 @@ class Opportunity extends Model
 {
     /** @use HasFactory<\Database\Factories\OpportunityFactory> */
     use HasFactory;
+    protected $fillable = ['title', 'description', 'location', 'salary', 'user_id','category', 'experience'];
     public static array $experience = ['entry', 'intermediate', 'senior'];
     public static array $category = ['IT', 'Finance', 'Accounting', 'Marketing', 'Sales', 'Programming'];
 
     public function scopeFilter(Builder|QueryBuilder $query, array $filters){
-        $query->when($filters['search'] ?? null, function ($query, $title) {
-            $query->title($title);
-        })->when($filters['category'] ?? null, function ($query, $category) {
+        $query
+            ->when($filters['search'] ?? null, function ($query, $title) {
+            $query->title($title);})
+            ->when($filters['category'] ?? null, function ($query, $category) {
                 $query->category($category);
             })->when($filters['experience'] ?? null, function ($query, $experience) {
                 $query->experience($experience);
@@ -30,12 +32,13 @@ class Opportunity extends Model
     }
     public function scopeTitle(Builder $query, string $title)
     {
-        return $query
-            ->where('title', 'like', '%'.$title.'%')
-            ->orWhere('description', 'like', '%'.$title.'%')
-            ->orWhereHas('employer', function ($query)use($title){
-                $query->where('Company_name', 'like', '%'.$title.'%');
-            });
+//        return $query
+//            ->where('title', 'like', '%'.$title.'%')
+//            ->orWhere('description', 'like', '%'.$title.'%')
+//            ->orWhereHas('employer', function ($query)use($title){
+//                $query->where('Company_name', 'like', '%'.$title.'%');
+//            });
+        return $query->whereAny(['title','description','company_name'],'like','%'.$title.'%');
     }
 
     public function scopeCategory(Builder $query, string $category){
@@ -58,9 +61,7 @@ class Opportunity extends Model
         }
     }
 
-    public function employer(): BelongsTo{
-        return $this->belongsTo(Employer::class);
-    }
+
 
     public function opportunity_applications(): HasMany{
         return $this->hasMany(OpportunityApplication::class);
@@ -76,8 +77,7 @@ class Opportunity extends Model
 
     }
 
-
-//    public function averageSalary(){
-//        return $this->opportunity_applications()->avg('expected_salary');
-//    }
+    public function user(): BelongsTo{
+        return $this->belongsTo(User::class);
+    }
 }

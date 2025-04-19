@@ -21,17 +21,11 @@ class DatabaseSeeder extends Seeder
         $this->call([UserSeeder::class]);
 
         $users = User::all()->shuffle();
-        for($i=0;$i<20;$i++){
-            Employer::factory()->create(
-                [
-                    'user_id'=>$users->pop()->id,
-                ]
-            );
-        }
-        $employers = Employer::all();
+
+        $employers = User::where('role', 'employer')->get();
         for ($i=0;$i<100;$i++){
             Opportunity::factory()->create(
-                ['employer_id'=>$employers->random()->id]
+                ['user_id'=>$employers->random()->id]
             );
         }
 

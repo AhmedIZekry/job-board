@@ -50,7 +50,7 @@
                                 </div>
 
                             </div>
-                            <p class="text-center text-black font-bold font-medium mb-2">You Have Applied</p>
+                            <p class="text-center text-black font-bold  mb-2">You Have Applied</p>
                             <form method="POST" action="{{route('applications.withdraw',$job->id)}}">
                                 @csrf
                                 <x-primary-button>Withdraw Application</x-primary-button>
@@ -61,9 +61,18 @@
             </x-card>
         </div>
         <div>
-            <x-employer-jobs :job="$job" class="mb-4">
+            <x-card>
+                <div class="mb-4">
+                    <h2>{{$job->user->company_name}}</h2>
+                </div>
 
-            </x-employer-jobs>
+                @foreach($employerJobs as $opportunity)
+                    <div class="flex justify-between mb-4 space-x-8 items-center">
+                        <div ><a href="{{route('jobs.show',$opportunity)}}">{{$opportunity->title}}</a></div>
+                        <div>${{number_format($opportunity->salary)}}</div>
+                    </div>
+                @endforeach
+            </x-card>
         </div>
     </div>
 </x-layout>

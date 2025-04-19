@@ -23,9 +23,11 @@
                     </div>
                 </div>
                 <div>
+                    <div class="mb-4 font-bold">Experience</div>
                     <x-radio-group name="experience" :options="Opportunity::$experience"/>
                 </div>
                 <div>
+                    <div class="mb-4 font-bold">Category</div>
                     <x-radio-group name="category" :options="Opportunity::$category"/>
                 </div>
 

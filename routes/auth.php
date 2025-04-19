@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Employer\EmployerController;
 use Illuminate\Support\Facades\Route;
 Route::middleware(['guest'])->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -55,4 +56,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
+
+    Route::get('employer/index', [EmployerController::class, 'index'])->name('employer.index');
+    Route::get('employer/create', [EmployerController::class, 'create'])->name('employer.create');
+    Route::post('employer/store', [EmployerController::class, 'store'])->name('employer.store');
+    Route::get('employer/edit/{id}', [EmployerController::class, 'edit'])->name('employer.edit');
 });
