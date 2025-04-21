@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCreateRequest;
+use App\Http\Requests\JobUpdateRequest;
 use App\Models\Opportunity;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -70,9 +71,18 @@ class EmployerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(JobUpdateRequest $request ,string $id)
     {
-        //
+        $job = Opportunity::findOrFail($id);
+        $job->update([
+            'title'=> $request->title ?? $job->title,
+            'description'=>$request->description ?? $job->description,
+            'salary'=>$request->salary ?? $job->salary,
+            'category'=>$request->category ?? $job->category,
+            'location'=>$request->location ?? $job->location,
+            'experience'=>$request->experience ?? $job->experience
+        ]);
+        return redirect()->route('employer.index')->with('success','Job updated successfully');
     }
 
     /**
@@ -80,6 +90,8 @@ class EmployerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $job = Opportunity::findOrFail($id);
+        $job->delete();
+        return redirect()->route('employer.index')->with('success','Job deleted successfully');
     }
 }

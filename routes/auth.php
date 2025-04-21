@@ -61,4 +61,6 @@ Route::middleware('auth')->group(function () {
     Route::get('employer/create', [EmployerController::class, 'create'])->name('employer.create');
     Route::post('employer/store', [EmployerController::class, 'store'])->name('employer.store');
     Route::get('employer/edit/{id}', [EmployerController::class, 'edit'])->name('employer.edit');
+    Route::put('employer/update/{id}', [EmployerController::class, 'update'])->name('employer.update');
+    Route::delete('employer/delete/{id}',[EmployerController::class,'destroy'])->name('employer.destroy');
 });
